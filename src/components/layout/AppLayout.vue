@@ -1,17 +1,20 @@
 <template>
   <div class="flex h-screen overflow-hidden bg-base">
     <!-- Sidebar -->
-    <aside :class="['flex flex-col bg-white border-r border-gray-100 shadow-sm transition-all duration-300 z-30',
+    <aside :class="['flex flex-col bg-gradient-to-b from-primary-dark via-primary to-white border-r border-primary/20 shadow-sm transition-all duration-300 z-30',
       sidebarOpen ? 'w-64' : 'w-16']">
       <!-- Logo -->
-      <div class="flex items-center gap-3 px-4 py-5 border-b border-gray-100">
-        <div class="flex-shrink-0 w-8 h-8 bg-primary rounded-xl flex items-center justify-center">
-          <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+      <div class="flex items-center gap-3 px-4 py-5 border-b border-white/20">
+        <div class="flex-shrink-0 w-8 h-8 bg-white/20 rounded-xl flex items-center justify-center">
+          <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+            <ellipse cx="12" cy="17" rx="4.5" ry="3.8"/>
+            <circle cx="6.5" cy="11" r="2.8"/>
+            <circle cx="10" cy="7.5" r="2.8"/>
+            <circle cx="14" cy="7.5" r="2.8"/>
+            <circle cx="17.5" cy="11" r="2.8"/>
           </svg>
         </div>
-        <span v-if="sidebarOpen" class="font-bold text-gray-800 text-lg">VetClinica</span>
+        <span v-if="sidebarOpen" class="font-bold text-white text-lg">VetClinica</span>
       </div>
 
       <!-- Nav links -->
@@ -19,16 +22,16 @@
         <router-link v-for="item in navItems" :key="item.to" :to="item.to"
           class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors duration-150 group"
           :class="$route.path === item.to
-            ? 'bg-primary text-white shadow-sm'
-            : 'text-gray-500 hover:bg-blue-50 hover:text-primary'">
+            ? 'bg-primary-dark text-white shadow-sm'
+            : 'text-gray-700 hover:bg-white/70 hover:text-primary-dark'">
           <component :is="item.icon" class="w-5 h-5 flex-shrink-0" />
           <span v-if="sidebarOpen" class="truncate">{{ item.label }}</span>
         </router-link>
       </nav>
 
       <!-- User -->
-      <div class="px-3 py-4 border-t border-gray-100">
-        <button @click="logout" class="flex items-center gap-3 w-full px-3 py-2 rounded-xl text-sm text-red-500 hover:bg-red-50 transition-colors">
+      <div class="px-3 py-4 border-t border-white/30">
+        <button @click="logout" class="flex items-center gap-3 w-full px-3 py-2 rounded-xl text-sm text-red-600 hover:bg-white/70 transition-colors">
           <ArrowRightOnRectangleIcon class="w-5 h-5 flex-shrink-0" />
           <span v-if="sidebarOpen">Cerrar sesión</span>
         </button>
@@ -37,8 +40,8 @@
 
     <!-- Main area -->
     <div class="flex flex-col flex-1 overflow-hidden">
-      <!-- Navbar -->
-      <header class="bg-white border-b border-gray-100 shadow-sm px-4 py-3 flex items-center gap-4">
+      <!-- Navbar (oculto en dashboard — usa su propia barra) -->
+      <header v-if="route.path !== '/dashboard'" class="bg-white border-b border-gray-100 shadow-sm px-4 py-3 flex items-center gap-4">
         <button @click="sidebarOpen = !sidebarOpen" class="p-1.5 rounded-lg hover:bg-base text-gray-500 transition-colors">
           <Bars3Icon class="w-5 h-5" />
         </button>
@@ -57,7 +60,7 @@
       </header>
 
       <!-- Page content -->
-      <main class="flex-1 overflow-y-auto p-6">
+      <main class="relative z-10 flex-1 overflow-y-auto p-4 lg:p-7 bg-[#f8fafc]">
         <router-view />
       </main>
     </div>

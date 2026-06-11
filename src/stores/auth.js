@@ -8,9 +8,9 @@ export const useAuthStore = defineStore('auth', () => {
   const isAuthenticated = computed(() => !!token.value)
 
   function login(credentials) {
-    // Simulación de login – reemplaza con llamada real a tu API
-    if (credentials.email === 'admin@vetnova.com' && credentials.password === 'admin123') {
-      const fakeUser = { id: 1, name: 'Dr. Admin', email: credentials.email, role: 'Administrador' }
+    const validEmails = ['admin@vetclinica.com', 'admin@vetnova.com']
+    if (validEmails.includes(credentials.email) && credentials.password === 'admin123') {
+      const fakeUser = { id: 1, name: 'Admin', email: credentials.email, role: 'Administrador' }
       const fakeToken = 'fake-jwt-token-' + Date.now()
       user.value = fakeUser
       token.value = fakeToken
